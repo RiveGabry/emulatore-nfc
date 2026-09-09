@@ -41,8 +41,8 @@
         /* Portrait mode optimizations */
         @media screen and (orientation: portrait) {
             /* Abbassa lo schermo del gioco per evitare il notch/foro fotocamera in alto */
-            .ejs_canvas {
-                margin-top: 12vh !important;
+            .ejs_canvas, .ejs_canvas_parent {
+                transform: translateY(8vh) !important;
             }
         }
 
