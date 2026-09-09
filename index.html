@@ -272,6 +272,15 @@
                 window.EJS_fullscreenOnLoaded = true;
                 window.EJS_defaultOptions = { 'shader': 'crt-easymode.glslp' };
 
+                // EmulatorJS forza "landscape" di default su mobile quando va in fullscreen.
+                // Intercettiamo questa chiamata per forzare SEMPRE il portrait.
+                if (window.screen && window.screen.orientation && window.screen.orientation.lock) {
+                    const originalLock = window.screen.orientation.lock.bind(window.screen.orientation);
+                    window.screen.orientation.lock = function(orientation) {
+                        return originalLock('portrait').catch(e => console.warn("Orientation lock ignored:", e));
+                    };
+                }
+
                 const script = document.createElement('script');
                 script.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
                 document.body.appendChild(script);
