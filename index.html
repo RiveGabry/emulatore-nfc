@@ -38,6 +38,14 @@
             padding: 0 !important;
         }
 
+        /* Portrait mode optimizations */
+        @media screen and (orientation: portrait) {
+            /* Abbassa lo schermo del gioco per evitare il notch/foro fotocamera in alto */
+            .ejs_canvas {
+                margin-top: 12vh !important;
+            }
+        }
+
         /* Landscape mode optimizations for virtual gamepad */
         @media screen and (orientation: landscape) and (max-height: 500px) {
             /* Move Start and Select to bottom edges, lower opacity to see game */
