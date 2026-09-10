@@ -44,6 +44,15 @@
             .ejs_canvas, .ejs_canvas_parent {
                 transform: translateY(8vh) !important;
             }
+            
+            /* Rende il bottone Start gigantesco così puoi premere ovunque per attivare il fullscreen */
+            .ejs_start_button {
+                width: 80vw !important;
+                padding: 40px !important;
+                font-size: 26px !important;
+                border-radius: 30px !important;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
+            }
         }
 
         /* Landscape mode optimizations for virtual gamepad */
@@ -336,12 +345,13 @@
                     // Estrai il nome del file (es: pokemon.gb)
                     const fileName = extractFilename(inputUrl);
 
-                    // 1. Genera Link Crittografato LUNGO
+                    // 1. Genera Link Crittografato LUNGO con Cache Buster
                     const configData = JSON.stringify({ core: inputCore, rom: inputUrl });
                     const safeHash = encrypt(configData);
                     
                     const currentUrl = new URL(window.location.href);
-                    currentUrl.search = '';
+                    // Forza il browser a scaricare l'ultima versione dell'HTML ignorando la cache
+                    currentUrl.search = '?v=' + Date.now(); 
                     currentUrl.hash = safeHash;
                     const longSecureLink = currentUrl.toString();
                     
