@@ -149,6 +149,40 @@
 
     <!-- Emulator Container (Hidden by default) -->
     <div id="emulator-container" class="hidden">
+        <style>
+            @media screen and (orientation: portrait) {
+                /* Ultra-high specificity per battere EmulatorJS */
+                #game .ejs_start_button {
+                    width: 80vw !important;
+                    padding: 40px !important;
+                    font-size: 26px !important;
+                    border-radius: 30px !important;
+                    box-shadow: 0 20px 50px rgba(0,0,0,0.8) !important;
+                    bottom: auto !important;
+                    top: 55% !important;
+                    left: 50% !important;
+                    transform: translate(-50%, -50%) !important;
+                }
+                
+                #game .ejs_start_button::before {
+                    content: "Dedalo\\A Game";
+                    white-space: pre;
+                    position: absolute;
+                    top: -160px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    font-size: 52px;
+                    font-weight: 900;
+                    color: white;
+                    text-align: center;
+                    text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+                    line-height: 1.1;
+                    pointer-events: none;
+                    letter-spacing: 2px;
+                    font-family: sans-serif;
+                }
+            }
+        </style>
         <div id="game"></div>
     </div>
 
@@ -288,46 +322,6 @@
                         return originalLock('portrait').catch(e => console.warn("Orientation lock ignored:", e));
                     };
                 }
-
-                // Osservatore aggressivo per intercettare il bottone Start Game e modificarlo
-                const observer = new MutationObserver((mutations) => {
-                    const startBtn = document.querySelector('.ejs_start_button');
-                    if (startBtn && !startBtn.dataset.modified) {
-                        startBtn.dataset.modified = "true";
-                        
-                        // Modifica inline brutale per ingrandirlo e centrarlo
-                        startBtn.style.setProperty('width', '80vw', 'important');
-                        startBtn.style.setProperty('padding', '40px', 'important');
-                        startBtn.style.setProperty('font-size', '26px', 'important');
-                        startBtn.style.setProperty('border-radius', '30px', 'important');
-                        startBtn.style.setProperty('bottom', 'auto', 'important');
-                        startBtn.style.setProperty('top', '55%', 'important');
-                        startBtn.style.setProperty('transform', 'translate(-50%, -50%)', 'important');
-                        
-                        // Iniezione del titolo Dedalo Game direttamente dentro il bottone
-                        const title = document.createElement('div');
-                        title.innerHTML = 'Dedalo<br>Game';
-                        title.style.position = 'absolute';
-                        title.style.top = '-160px';
-                        title.style.left = '50%';
-                        title.style.transform = 'translateX(-50%)';
-                        title.style.width = '100%';
-                        title.style.textAlign = 'center';
-                        title.style.fontSize = '52px';
-                        title.style.fontWeight = '900';
-                        title.style.color = 'white';
-                        title.style.textShadow = '0 4px 20px rgba(0,0,0,0.8)';
-                        title.style.pointerEvents = 'none';
-                        title.style.lineHeight = '1.1';
-                        title.style.fontFamily = 'sans-serif';
-                        
-                        startBtn.appendChild(title);
-                        
-                        // Smettiamo di osservare una volta fatto
-                        observer.disconnect();
-                    }
-                });
-                observer.observe(document.body, { childList: true, subtree: true });
 
                 const script = document.createElement('script');
                 script.src = 'https://cdn.emulatorjs.org/stable/data/loader.js';
